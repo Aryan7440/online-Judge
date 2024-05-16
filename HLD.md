@@ -180,7 +180,7 @@ The Online Judge Platform is designed to facilitate competitive programming and 
 1. **User Interface**: Users view active contests and select one to participate in.
 2. **Contest Details**: The contest details and list of questions are fetched and displayed.
 3. **Submitting Solutions**: Users select a question, write their solution, and submit it.
-4. **Backend Processing**: The submission is sent to the backend, which stores the `ContestSubmission`, runs the code, and updates the result.
+4. **Backend Processing**: The submission is sent to the backend, which stores the `ContestQuestion`, runs the code, and updates the result.
 5. **Result Display**: The result of the submission is sent back to the user and displayed.
 
 ### Discussing Solutions
