@@ -64,7 +64,7 @@ The Online Judge Platform is designed to facilitate competitive programming and 
 
 ### Database designing
 
-![alt text](image-2.png)
+![alt text](image.png)
 
 ## Entities and Relationships
 
@@ -89,19 +89,18 @@ The Online Judge Platform is designed to facilitate competitive programming and 
 - **difficulty**: Difficulty level of the question (e.g., easy, medium, hard).
 - **Total submissons**: no of submissions
 - **WA**: Total wrong no. of submissions
-- **Status**: Attempted, NotAttempted and solved
 - **Tags**: List of Tags
 
 ### TestCase
 
-- **\_id**: Primary Key, unique identifier for each test case.
+- **TestCaseid**: Primary Key, unique identifier for each test case.
 - **question_id**: Foreign Key, reference to the associated question.
 - **inputFileURL**: URL to the input file stored in S3.
 - **expectedOutputFileURL**: URL to the expected output file stored in S3.
 
 ### Submission
 
-- **\_id**: Primary Key, unique identifier for each submission.
+- **SubmissonID**: Primary Key, unique identifier for each submission.
 - **user_id**: Foreign Key, reference to the user who made the submission.
 - **question_id**: Foreign Key, reference to the question being answered.
 - **Language**: Programming Language.
