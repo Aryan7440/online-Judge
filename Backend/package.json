@@ -1,0 +1,14 @@
+{
+  "name": "online-judge",
+  "version": "1.0.0",
+  "description": "An online judge applicatino made using MERN stack under in Algo University dev season",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "oj"
+  ],
+  "author": "Aryan shukla",
+  "license": "ISC"
+}
