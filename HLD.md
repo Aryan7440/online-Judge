@@ -5,6 +5,7 @@
 - [High-Level Design Document for Online Judge Platform](#high-level-design-document-for-online-judge-platform)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [Challenges](#challenges)
   - [Data Flow](#data-flow)
   - [HLD](#hld)
     - [Database designing](#database-designing)
@@ -17,11 +18,18 @@
     - [Comment](#comment)
     - [Contest](#contest)
     - [ContestQuestion](#contestquestion)
-  - [Relationships](#relationships)
   - [UI and Routes](#ui-and-routes)
     - [Creating a Contest](#creating-a-contest)
     - [Participating in a Contest](#participating-in-a-contest)
     - [Discussing Solutions](#discussing-solutions)
+  - [User APIs](#user-apis)
+  - [Question APIs](#question-apis)
+  - [Test Case APIs](#test-case-apis)
+  - [Submission APIs](#submission-apis)
+  - [Discussion APIs](#discussion-apis)
+  - [Comment APIs](#comment-apis)
+  - [Contest APIs](#contest-apis)
+  - [ContestQuestion APIs](#contestquestion-apis)
   - [Technology Stack](#technology-stack)
   - [Component Description](#component-description)
     - [Frontend](#frontend)
@@ -36,7 +44,34 @@
 
 The Online Judge Platform is designed to facilitate competitive programming and coding challenges. Users can submit their code, which will be evaluated against predefined test cases. The platform is built using the MERN stack (MongoDB, Express.js, React.js, Node.js).
 
+## Challenges
+
+1. **Scalability and Load Balancing**
+
+   - Load Balancing: Distribute requests across multiple servers to ensure even load distribution.
+   - Horizontal Scaling: Design architecture to support adding more servers as needed.
+
+2. **Efficient Resource Management**
+
+   - Sandboxing: Run each submission in an isolated environment to ensure security and prevent interference.
+   - Resource Limits: Impose limits on CPU usage, memory consumption, and execution time to prevent resource abuse.
+   - Prioritization: Implement a job queue to manage and prioritize submissions during peak times.
+
+3. **Result Accuracy and Fairnes**s
+
+   - Test Case Management: Design a robust system for managing and updating test cases without exposing them to users.
+   - Edge Cases: Create comprehensive test cases that cover common and uncommon edge cases.
+   - Anti-Cheating Mechanisms: Implement mechanisms to detect plagiarism and code similarity among submissions.
+
+4. **Security**
+
+   - Prevent Unauthorized Access: Implement robust authentication and authorization mechanisms.
+   - Code Injection Attacks: Ensure that code submissions are executed in a secure, isolated environment.
+   - Data Breaches: Protect user data with encryption and secure storage practices.
+
 ## Data Flow
+
+![alt text](DataFlowDaigram.png)
 
 1. **User Registration/Login**:
 
@@ -64,7 +99,7 @@ The Online Judge Platform is designed to facilitate competitive programming and 
 
 ### Database designing
 
-![alt text](image.png)
+![alt text](DatabaseDesign.png)
 
 ## Entities and Relationships
 
@@ -123,7 +158,7 @@ The Online Judge Platform is designed to facilitate competitive programming and 
 
 ### Comment
 
-- **\_id**: Primary Key, unique identifier for each comment.
+- **CommentID**: Primary Key, unique identifier for each comment.
 - **discussion_id**: Foreign Key, reference to the associated discussion.
 - **user_id**: Foreign Key, reference to the user who wrote the comment.
 - **content**: Content of the comment.
@@ -134,7 +169,7 @@ The Online Judge Platform is designed to facilitate competitive programming and 
 
 ### Contest
 
-- **\_id**: Primary Key, unique identifier for each contest.
+- **ContestID**: Primary Key, unique identifier for each contest.
 - **Title**: Name of the contest.
 - **startDate**: Start date and time of the contest.
 - **endDate**: End date and time of the contest.
@@ -146,28 +181,9 @@ The Online Judge Platform is designed to facilitate competitive programming and 
 - **contest_id**: Foreign Key, reference to the associated contest.
 - **question_id**: Foreign Key, reference to the associated question.
 
-## Relationships
-
-- **User to Submission**: A user can make multiple submissions. This is a one-to-many relationship.
-- **Question to TestCase**: A question can have multiple test cases. This is a one-to-many relationship.
-- **Question to Submission**: A question can receive multiple submissions from different users. This is a one-to-many relationship.
-- **TestCase to Question**: Each test case belongs to one question. This is a many-to-one relationship.
-- **Submission to User**: Each submission is made by one user. This is a many-to-one relationship.
-- **Submission to Question**: Each submission is for one specific question. This is a many-to-one relationship.
-- **Question to Tag**: A question can have multiple tags, and a tag can be associated with multiple questions. This is a many-to-many relationship facilitated by the `QuestionTag` join table.
-- **Question to Discussion**: A question can have multiple discussions. This is a one-to-many relationship.
-- **Discussion to Comment**: A discussion can have multiple comments. This is a one-to-many relationship.
-- **User to Discussion**: A user can initiate multiple discussions. This is a one-to-many relationship.
-- **User to Comment**: A user can write multiple comments. This is a one-to-many relationship.
-- **Contest to ContestQuestion**: A contest can have multiple questions. This is a one-to-many relationship.
-- **Question to ContestQuestion**: A question can be included in multiple contests. This is a many-to-many relationship facilitated by the `ContestQuestion` join table.
-- **Contest to ContestQuestion**: A contest can receive multiple submissions. This is a one-to-many relationship.
-- **User to ContestQuestion**: A user can submit multiple contest submissions. This is a one-to-many relationship.
-- **Question to ContestQuestion**: A question can have multiple contest submissions. This is a one-to-many relationship.
-
 ## UI and Routes
 
-![alt text](image-1.png)
+![alt text](UI_Routes.png)
 
 ### Creating a Contest
 
@@ -189,13 +205,215 @@ The Online Judge Platform is designed to facilitate competitive programming and 
 2. **Backend**: The discussion is saved in the `Discussion` entity and linked to the respective question and user.
 3. **Commenting**: Other users can view discussions and add comments, which are stored in the `Comment` entity.
 
+Certainly! Here is the information formatted in Markdown:
+
+## User APIs
+
+1. **User Registration**
+
+   - **Endpoint**: `POST /api/users/register`
+   - **Description**: Registers a new user.
+
+2. **User Login**
+
+   - **Endpoint**: `POST /api/users/login`
+   - **Description**: Authenticates a user and returns a JWT.
+
+3. **Get User Profile**
+
+   - **Endpoint**: `GET /api/users/:id`
+   - **Description**: Retrieves the profile information of a user.
+   - **Parameters**: `id` (user ID)
+
+4. **Update User Profile**
+
+   - **Endpoint**: `PUT /api/users/:id`
+   - **Description**: Updates the profile information of a user.
+   - **Parameters**: `id` (user ID)
+
+5. **Get All Users**
+   - **Endpoint**: `GET /api/users`
+   - **Description**: Retrieves a list of all users.
+
+## Question APIs
+
+6. **Create Question**
+
+   - **Endpoint**: `POST /api/questions`
+   - **Description**: Creates a new question.
+
+7. **Get Question Details**
+
+   - **Endpoint**: `GET /api/questions/:id`
+   - **Description**: Retrieves details of a specific question.
+   - **Parameters**: `id` (question ID)
+
+8. **Get All Questions**
+
+   - **Endpoint**: `GET /api/questions`
+   - **Description**: Retrieves a list of all questions.
+
+9. **Update Question**
+
+   - **Endpoint**: `PUT /api/questions/:id`
+   - **Description**: Updates details of a specific question.
+   - **Parameters**: `id` (question ID)
+
+10. **Delete Question**
+    - **Endpoint**: `DELETE /api/questions/:id`
+    - **Description**: Deletes a specific question.
+    - **Parameters**: `id` (question ID)
+
+## Test Case APIs
+
+11. **Create Test Case**
+
+    - **Endpoint**: `POST /api/testcases`
+    - **Description**: Creates a new test case.
+
+12. **Get Test Cases for a Question**
+
+    - **Endpoint**: `GET /api/questions/:id/testcases`
+    - **Description**: Retrieves all test cases for a specific question.
+    - **Parameters**: `id` (question ID)
+
+13. **Update Test Case**
+
+    - **Endpoint**: `PUT /api/testcases/:id`
+    - **Description**: Updates details of a specific test case.
+    - **Parameters**: `id` (test case ID)
+
+14. **Delete Test Case**
+    - **Endpoint**: `DELETE /api/testcases/:id`
+    - **Description**: Deletes a specific test case.
+    - **Parameters**: `id` (test case ID)
+
+## Submission APIs
+
+15. **Submit Code**
+
+    - **Endpoint**: `POST /api/submissions`
+    - **Description**: Submits a solution for a question.
+
+16. **Get Submission Details**
+
+    - **Endpoint**: `GET /api/submissions/:id`
+    - **Description**: Retrieves details of a specific submission.
+    - **Parameters**: `id` (submission ID)
+
+17. **Get User Submissions**
+    - **Endpoint**: `GET /api/users/:id/submissions`
+    - **Description**: Retrieves all submissions made by a specific user.
+    - **Parameters**: `id` (user ID)
+
+## Discussion APIs
+
+18. **Create Discussion**
+
+    - **Endpoint**: `POST /api/discussions`
+    - **Description**: Creates a new discussion thread.
+
+19. **Get Discussion Details**
+
+    - **Endpoint**: `GET /api/discussions/:id`
+    - **Description**: Retrieves details of a specific discussion thread.
+    - **Parameters**: `id` (discussion ID)
+
+20. **Get Discussions for a Question**
+
+    - **Endpoint**: `GET /api/questions/:id/discussions`
+    - **Description**: Retrieves all discussions related to a specific question.
+    - **Parameters**: `id` (question ID)
+
+21. **Update Discussion**
+
+    - **Endpoint**: `PUT /api/discussions/:id`
+    - **Description**: Updates details of a specific discussion thread.
+    - **Parameters**: `id` (discussion ID)
+
+22. **Delete Discussion**
+    - **Endpoint**: `DELETE /api/discussions/:id`
+    - **Description**: Deletes a specific discussion thread.
+    - **Parameters**: `id` (discussion ID)
+
+## Comment APIs
+
+23. **Add Comment**
+
+    - **Endpoint**: `POST /api/comments`
+    - **Description**: Adds a comment to a discussion thread.
+
+24. **Get Comments for a Discussion**
+
+    - **Endpoint**: `GET /api/discussions/:id/comments`
+    - **Description**: Retrieves all comments for a specific discussion thread.
+    - **Parameters**: `id` (discussion ID)
+
+25. **Update Comment**
+
+    - **Endpoint**: `PUT /api/comments/:id`
+    - **Description**: Updates details of a specific comment.
+    - **Parameters**: `id` (comment ID)
+
+26. **Delete Comment**
+    - **Endpoint**: `DELETE /api/comments/:id`
+    - **Description**: Deletes a specific comment.
+    - **Parameters**: `id` (comment ID)
+
+## Contest APIs
+
+27. **Create Contest**
+
+    - **Endpoint**: `POST /api/contests`
+    - **Description**: Creates a new contest.
+    - **Request Body**:
+
+28. **Get Contest Details**
+
+    - **Endpoint**: `GET /api/contests/:id`
+    - **Description**: Retrieves details of a specific contest.
+    - **Parameters**: `id` (contest ID)
+
+29. **Get All Contests**
+
+    - **Endpoint**: `GET /api/contests`
+    - **Description**: Retrieves a list of all contests.
+
+30. **Update Contest**
+
+    - **Endpoint**: `PUT /api/contests/:id`
+    - **Description**: Updates details of a specific contest.
+    - **Parameters**: `id` (contest ID)
+    - **Request Body**:
+
+31. **Delete Contest**
+    - **Endpoint**: `DELETE /api/contests/:id`
+    - **Description**: Deletes a specific contest.
+    - **Parameters**: `id` (contest ID)
+
+## ContestQuestion APIs
+
+32. **Add Question to Contest**
+
+    - **Endpoint**: `POST /api/contests/:contest_id/questions`
+    - **Description**: Adds a question to a contest.
+    - **Parameters**: `contest_id` (contest ID)
+    - **Request Body**:
+
+33. **Remove Question from Contest**
+    - **Endpoint**: `DELETE /api/contests/:contest_id/questions/:question_id`
+    - **Description**: Removes a question from a contest.
+    - **Parameters**: `contest_id` (contest ID), `question_id` (question ID)
+
 ## Technology Stack
 
 - **Frontend**: React.js
 - **Backend**: Node.js with Express.js
 - **Database**: MongoDB
 - **File Storage**: AWS S3 for storing code files, test cases, and images
-- **External Services**: Code execution environment.
+- **External Services**: Code execution environment,Sandbox
+- **Docker**: for containerization
+- **AWS**: Deployment
 
 ## Component Description
 
