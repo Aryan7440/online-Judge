@@ -15,13 +15,16 @@ const Registration = () => {
     event.preventDefault()
 
     try {
-      const serverResponse = await axios.post(`http://localhost:3000/signup`, {
-        username,
-        email,
-        password,
-        DateOfBirth: dateOfBirth,
-        FullName: fullName,
-      })
+      const serverResponse = await axios.post(
+        `${process.env.REACT_APP_BACK_END_URL}/signup`,
+        {
+          username,
+          email,
+          password,
+          DateOfBirth: dateOfBirth,
+          FullName: fullName,
+        }
+      )
       console.log(serverResponse)
       navigate('/signin')
       // Redirect the user to the login page

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
 import Registration from './Registration/Registration'
-import SignIn from './LogIn/LogIn'
+import LogIn from './LogIn/LogIn'
 import DashBoard from './DashBoard/DashBoard'
 import PageNotFound from './PageNotFound/PageNotFound'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -13,7 +13,6 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <h1>Something Went Wrong</h1>,
     // loader: deferRoleChecking,
-    // to prevent cold-warn start of server 💁‍♂️
   },
   {
     path: 'signup',
@@ -22,11 +21,11 @@ const router = createBrowserRouter([
   },
   {
     path: 'signin',
-    element: <SignIn />,
+    element: <LogIn />,
     // loader: roleChecking,
   },
   {
-    path: 'dashboard/:id',
+    path: 'dashboard/:UserId',
     element: <DashBoard />,
     // loader: roleChecking,
   },
@@ -39,6 +38,5 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
-    {/* <App /> */}
   </React.StrictMode>
 )

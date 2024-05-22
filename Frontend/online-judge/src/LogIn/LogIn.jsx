@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import Cookies from 'js-cookie'
 
 const LogIn = () => {
   const [username, setUsername] = useState('')
@@ -19,17 +18,21 @@ const LogIn = () => {
     } else {
       try {
         console.log('Login page entered')
-        const response = await axios.post(`http://localhost:3000/login`, {
-          username,
-          password,
-        })
+        const response = await axios.post(
+          `${process.env.REACT_APP_BACK_END_URL}/login`,
+          {
+            username,
+            password,
+          },
+          { withCredentials: true }
+        )
         console.log(response.data)
-        Cookies.set('token', response.data.token)
+        const UserName = response.data.UserName
+        console.log(`Username: ${username}, Password: ${password}`)
+        navigate(`/dashboard/${UserName}`)
       } catch (error) {
         console.error('Error:', error)
       }
-      console.log(`Username: ${username}, Password: ${password}`)
-      navigate('/dashboard')
     }
   }
 

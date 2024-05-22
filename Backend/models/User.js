@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 
 const UserSchema = new mongoose.Schema({
-  Userid: mongoose.Schema.Types.ObjectId,
+  ID: { type: String, unique: true, sparse: true },
   Role: { type: String, default: 'User' },
-  username: { type: String, required: true },
+  username: { type: String, unique: true, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
   registrationDate: { type: Date, default: Date.now },

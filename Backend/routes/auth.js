@@ -2,8 +2,10 @@ import express from 'express'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import User from '../models/User.js'
+import cookieParser from 'cookie-parser'
 
 const router = express.Router()
+router.use(cookieParser())
 router.post('/signup', async (req, res) => {
   const { username, password, email, DateOfBirth, FullName } = req.body
   console.log('signup page entered')
@@ -56,15 +58,36 @@ router.post('/login', async (req, res) => {
     return res.status(400).json({ message: 'Invalid username or password' })
   }
 
-  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: '1h',
+  const token = jwt.sign(
+    { UserName: user.username },
+    process.env.JWT_SECRET_KEY,
+    {
+      expiresIn: '1h',
+    }
+  )
+  res.cookie('Jtoken', token, {
+    httpOnly: true,
+    secure: true,
+    // secure: process.env.NODE_ENV === 'production', // Ensures the cookie is only sent over HTTPS in production
+    sameSite: 'none',
+    maxAge: 2 * 60 * 60 * 1000,
   })
   console.log('token generated')
   res.send({
+    UserName: user.username,
     istrue: true,
-    Jtoken: token,
     role: user.Role,
     message: 'Login Successful',
   })
+})
+router.post('/logout', async (req, res) => {
+  res.clearCookie('Jtoken', {
+    httpOnly: true,
+    secure: true,
+    // secure: process.env.NODE_ENV === 'production', // Ensures the cookie is only sent over HTTPS in production
+    sameSite: 'Strict',
+  })
+  console.log('logging out')
+  res.send({ message: 'Logged out' })
 })
 export default router
