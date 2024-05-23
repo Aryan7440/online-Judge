@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import AuthContext from '../Hooks/AuthContext'
 
 const LogIn = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
   const navigate = useNavigate()
+  const { setIsLoggedIn } = useContext(AuthContext)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -29,6 +32,7 @@ const LogIn = () => {
         console.log(response.data)
         const UserName = response.data.UserName
         console.log(`Username: ${username}, Password: ${password}`)
+        setIsLoggedIn(true)
         navigate(`/dashboard/${UserName}`)
       } catch (error) {
         console.error('Error:', error)

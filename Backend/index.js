@@ -4,7 +4,8 @@ import auth from './routes/auth.js'
 import User from './models/User.js'
 import cors from 'cors'
 import dotenv from 'dotenv'
-import verifyToken from './routes/verify.js'
+// import verifyToken from './middleware/verifyToken.js'
+import verify from './routes/verify.js'
 import http from 'http'
 dotenv.config()
 const port = 3000
@@ -28,8 +29,11 @@ app.use(
   })
 )
 app.use('/', auth)
-app.use('/', verifyToken)
+app.use('/', verify)
 
+// app.get('/checktoken', verifyToken, async (req, res) => {
+//   return res.send({ is_true: true })
+// })
 app.get('/Dashboard', async (req, res) => {
   const user = await User.findOne({ investor_email: req.headers.email })
   return res.send({ inv_name: user.investor_name })

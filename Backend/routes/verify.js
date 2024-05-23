@@ -4,9 +4,10 @@ import User from '../models/User.js'
 
 const router = express.Router()
 
-router.post('/verify', async (req, res) => {
+router.get('/verify', async (req, res) => {
   try {
     const token = req.cookies.Jtoken
+    console.log(token)
     if (!token) {
       return res.status(401).json({ message: 'Token not provided' })
     }
@@ -16,7 +17,7 @@ router.post('/verify', async (req, res) => {
         return res.status(403).json({ message: 'Invalid token' })
       }
 
-      const user = await User.findById(decoded.username)
+      const user = await User.findOne({ username: decoded.UserName })
       if (!user) {
         return res.status(404).json({ message: 'User not found' })
       }

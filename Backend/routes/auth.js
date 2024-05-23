@@ -65,11 +65,12 @@ router.post('/login', async (req, res) => {
       expiresIn: '1h',
     }
   )
+  console.log(token)
   res.cookie('Jtoken', token, {
     httpOnly: true,
     secure: true,
     // secure: process.env.NODE_ENV === 'production', // Ensures the cookie is only sent over HTTPS in production
-    sameSite: 'none',
+    // sameSite: 'none',
     maxAge: 2 * 60 * 60 * 1000,
   })
   console.log('token generated')
