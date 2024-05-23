@@ -7,9 +7,9 @@ const router = express.Router()
 router.get('/verify', async (req, res) => {
   try {
     const token = req.cookies.Jtoken
-    console.log(token)
+    // console.log(token)
     if (!token) {
-      return res.status(401).json({ message: 'Token not provided' })
+      return res.send({ is_true: false, message: 'No token provided' })
     }
 
     jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, decoded) => {

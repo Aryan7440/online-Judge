@@ -19,7 +19,7 @@ const Menu = () => {
           console.log('User is logged in')
         } else {
           setIsLoggedIn(false)
-          console.error('User is not logged in')
+          console.log('User is not logged in')
         }
       } catch (error) {
         setIsLoggedIn(false)

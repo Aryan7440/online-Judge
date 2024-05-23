@@ -8,9 +8,14 @@ const useLogout = () => {
   const { setIsLoggedIn } = useContext(AuthContext)
   const logout = async () => {
     try {
-      await axios.post(`${process.env.REACT_APP_BACK_END_URL}/logout`, {
-        withCredentials: true,
-      })
+      const response = await axios.post(
+        `${process.env.REACT_APP_BACK_END_URL}/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
+      console.log(response.data)
       setIsLoggedIn(false)
       navigate('/')
     } catch (error) {
