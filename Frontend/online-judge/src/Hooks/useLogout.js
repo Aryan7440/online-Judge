@@ -5,7 +5,7 @@ import AuthContext from './AuthContext'
 
 const useLogout = () => {
   const navigate = useNavigate()
-  const { setIsLoggedIn } = useContext(AuthContext)
+  const { setIsLoggedIn, setRole, setUserName } = useContext(AuthContext)
   const logout = async () => {
     try {
       const response = await axios.post(
@@ -17,6 +17,8 @@ const useLogout = () => {
       )
       console.log(response.data)
       setIsLoggedIn(false)
+      setRole('')
+      setUserName('')
       navigate('/')
     } catch (error) {
       console.error('Error during logout:', error)

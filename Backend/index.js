@@ -1,11 +1,11 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import auth from './routes/auth.js'
 import User from './models/User.js'
 import cors from 'cors'
 import dotenv from 'dotenv'
-// import verifyToken from './middleware/verifyToken.js'
 import verify from './routes/verify.js'
+import auth from './routes/auth.js'
+import addQuestion from './routes/AddQuestions.js'
 import http from 'http'
 dotenv.config()
 const port = 3000
@@ -30,12 +30,9 @@ app.use(
 )
 app.use('/', auth)
 app.use('/', verify)
+app.use('/', addQuestion)
 
-// app.get('/checktoken', verifyToken, async (req, res) => {
-//   return res.send({ is_true: true })
-// })
 app.get('/Dashboard', async (req, res) => {
   const user = await User.findOne({ investor_email: req.headers.email })
   return res.send({ inv_name: user.investor_name })
 })
-// app.listen(port, () => console.log(`Server running on port ${port}`))

@@ -2,9 +2,12 @@ import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import AuthContext from '../Hooks/AuthContext'
+import useLogout from '../Hooks/useLogout'
 
 const Menu = () => {
-  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn, setIsLoggedIn, role, setRole, UserName, setUserName } =
+    useContext(AuthContext)
+  const logout = useLogout()
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -14,9 +17,13 @@ const Menu = () => {
           withCredentials: true,
         })
         console.log(response.data)
+
         if (response.data.is_true === true) {
+          setRole(response.data.role)
+          setUserName(response.data.email)
+          console.log(`User is logged in as ${response.data.role}`)
+          console.log(`User name is ${response.data.email}`)
           setIsLoggedIn(true)
-          console.log('User is logged in')
         } else {
           setIsLoggedIn(false)
           console.log('User is not logged in')
@@ -27,7 +34,7 @@ const Menu = () => {
       }
     }
     checkLoginStatus()
-  }, [setIsLoggedIn])
+  }, [isLoggedIn, role, setIsLoggedIn, setRole, setUserName, UserName])
   return (
     <div className="px-2 md:px-0 py-3 space-y-2 md:space-y-0 md:space-x-2 font-medium text-slate-700">
       <Link
@@ -50,19 +57,30 @@ const Menu = () => {
       </Link>
       {isLoggedIn && (
         <Link
-          to="/Dashboard:id"
+          to={`/dashboard/${UserName}`}
           className="block md:inline-block px-3 py-2 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"
         >
           DashBoard
         </Link>
       )}
+      {isLoggedIn && role === 'Admin' && (
+        <Link
+          to="/addQuestion"
+          className="block md:inline-block px-3 py-2 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"
+        >
+          Add Question
+        </Link>
+      )}
       {isLoggedIn && (
         <Link
-          to="/Signout"
+          onClick={logout}
+          to="/"
           className="block md:inline-block px-3 py-2 rounded-md
           hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white
           focus:bg-gray-700"
-        ></Link>
+        >
+          Sign Out
+        </Link>
       )}
 
       {!isLoggedIn && (
