@@ -1,6 +1,8 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const QuestionsTable = ({ questions }) => {
+  console.log(questions)
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full bg-white border border-gray-200">
@@ -16,12 +18,12 @@ const QuestionsTable = ({ questions }) => {
           {questions.map((question) => (
             <tr key={question._id} className="hover:bg-gray-100">
               <td className="py-2 px-4 border-b text-center">
-                <a
-                  href={`/questions/${question._id}`}
+                <Link
+                  to={`/questions/${question._id}`}
                   className="text-blue-500 hover:underline"
                 >
                   {question.title}
-                </a>
+                </Link>
               </td>
               <td className="py-2 px-4 border-b">
                 <div className="flex justify-center items-center flex-wrap">

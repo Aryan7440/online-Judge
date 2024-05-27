@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import AuthProvider from './Hooks/AuthProvider'
 import Addquestion from './AddQuestion/Addquestion'
 import FetchQuestions from './FetchQuestions/FetchQuestions'
+import QuestionDescription from './QuestionDescription/QuestionDescription'
 
 function App() {
   return (
@@ -23,6 +24,10 @@ function App() {
           <Route path="addquestion" element={<Addquestion />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="questions" element={<FetchQuestions />} />
+          <Route
+            path="questions/:questionID"
+            element={<QuestionDescription />}
+          />
         </Routes>
       </Router>
     </AuthProvider>

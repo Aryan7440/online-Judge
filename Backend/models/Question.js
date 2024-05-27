@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const QuestionSchema = new mongoose.Schema({
-  question_id: { type: mongoose.Schema.Types.ObjectId, unique: true },
+  question_id: { type: String, required: true, unique: true },
   title: { type: String, unique: true, required: true },
   description: { type: String, required: true },
   difficulty: {

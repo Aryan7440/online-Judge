@@ -11,9 +11,10 @@ router.get('/fetchQuestions', async (req, res) => {
   }
 })
 router.get('/questions/:questionID', async (req, res) => {
-  const qid = req.params.question_id
+  const qid = req.params.questionID
+  console.log(qid)
   try {
-    const question = await Question.findByID(qid)
+    const question = await Question.findById(qid)
     if (question == null) {
       return res.status(404).json({ message: 'Cannot find question' })
     }
