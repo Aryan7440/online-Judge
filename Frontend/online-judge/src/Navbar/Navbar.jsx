@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 // import Button from './Button'
 import Menu from './Menu'
-
+import Logo from '../assets/Logo.png'
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false)
   return (
-    <nav className="bg-gray-400">
-      <div className="max-w-7xl mx-auto flex items-center justify-between h-16 px-4 border-b border-solid border-slate-600">
-        <div className="flex-shrink-0 font-bold tracking-wider">LOGO</div>
+    <nav className="bg-black">
+      <div className="max-w-7xl mx-auto flex items-center justify-between h-20  border-b border-solid border-slate-600">
+        <div className="flex-shrink-0 font-bold tracking-wider">
+          <img className="h-40 w-auto" src={Logo} alt="CodeHub" />
+        </div>
         <div className="hidden md:block">
           <Menu></Menu>
         </div>

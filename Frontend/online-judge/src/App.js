@@ -8,6 +8,7 @@ import PageNotFound from './PageNotFound/PageNotFound'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import AuthProvider from './Hooks/AuthProvider'
 import Addquestion from './AddQuestion/Addquestion'
+import FetchQuestions from './FetchQuestions/FetchQuestions'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="dashboard/:UserName" element={<DashBoard />} />
           <Route path="addquestion" element={<Addquestion />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="questions" element={<FetchQuestions />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -6,6 +6,7 @@ import dotenv from 'dotenv'
 import verify from './routes/verify.js'
 import auth from './routes/auth.js'
 import addQuestion from './routes/AddQuestions.js'
+import getQuestions from './API/Fetchproblems.js'
 import http from 'http'
 dotenv.config()
 const port = 3000
@@ -31,6 +32,7 @@ app.use(
 app.use('/', auth)
 app.use('/', verify)
 app.use('/', addQuestion)
+app.use('/', getQuestions)
 
 app.get('/Dashboard', async (req, res) => {
   const user = await User.findOne({ investor_email: req.headers.email })

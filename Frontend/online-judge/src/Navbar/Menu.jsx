@@ -13,9 +13,12 @@ const Menu = () => {
     const checkLoginStatus = async () => {
       console.log('Checking login status')
       try {
-        const response = await axios.get(`http://localhost:3000/verify`, {
-          withCredentials: true,
-        })
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACK_END_URL}/verify`,
+          {
+            withCredentials: true,
+          }
+        )
         console.log(response.data)
 
         if (response.data.is_true === true) {
@@ -39,12 +42,12 @@ const Menu = () => {
     <div className="px-2 md:px-0 py-3 space-y-2 md:space-y-0 md:space-x-2 font-medium text-slate-700">
       <Link
         to="/"
-        className="block md:inline-block px-3 py-2 rounded-md text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700"
+        className="block md:inline-block px-3 py-2 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"
       >
         Home
       </Link>
       <Link
-        to="/Problems"
+        to="/questions"
         className="block md:inline-block px-3 py-2 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"
       >
         Problems
