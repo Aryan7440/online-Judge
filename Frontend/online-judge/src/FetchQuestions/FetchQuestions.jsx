@@ -21,7 +21,7 @@ const FetchQuestions = () => {
   }, [])
   return (
     <div className="container mx-auto mt-8 p-4">
-      <h1 className="text-2xl font-bold mb-4">Questions List</h1>
+      <h1 className="text-2xl font-bold mb-4 text-white">Questions List</h1>
       <QuestionsTable questions={questions} />
     </div>
   )

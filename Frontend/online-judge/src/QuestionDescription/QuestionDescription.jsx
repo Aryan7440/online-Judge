@@ -24,12 +24,15 @@ const QuestionDescription = () => {
       }
     }
     getQuestion(questionID)
-  }, [])
+  }, [questionID])
 
   return (
     <div className="container mx-auto py-8">
       <div className="flex flex-wrap md:flex-nowrap">
-        <DescriptionSection description={question.description} />
+        <DescriptionSection
+          description={question.description}
+          title={question.title}
+        />
         <EditorSection />
       </div>
     </div>

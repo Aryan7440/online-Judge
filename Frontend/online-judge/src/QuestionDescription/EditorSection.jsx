@@ -9,7 +9,7 @@ import 'prismjs/components/prism-python'
 import 'prismjs/components/prism-java'
 import 'prismjs/themes/prism.css'
 import AuthContext from '../Hooks/AuthContext'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 
 const EditorSection = () => {
   const [code, setCode] = useState(`
@@ -26,7 +26,7 @@ const EditorSection = () => {
     }`)
   const [output, setOutput] = useState('')
   const { UserName } = useContext(AuthContext)
-  const { questionID } = useParams()
+  // const { questionID } = useParams()
   const handleSubmit = async () => {
     const payload = {
       language: 'cpp',
@@ -45,7 +45,7 @@ const EditorSection = () => {
 
   return (
     <div className="w-full md:w-1/2 p-4">
-      <select className="select-box border border-gray-300 rounded-lg py-1.5 px-4 mb-1 focus:outline-none focus:border-indigo-500">
+      <select className="select-box border border-gray-300 rounded-lg py-1.5 px-4 mb-1 focus:outline-none focus:border-indigo-500 text-black">
         <option value="cpp">C++</option>
         <option value="c">C</option>
         <option value="py">Python</option>
@@ -106,6 +106,7 @@ const EditorSection = () => {
             style={{
               fontFamily: '"Fira code", "Fira Mono", monospace',
               fontSize: 12,
+              color: 'black',
             }}
           >
             {output}

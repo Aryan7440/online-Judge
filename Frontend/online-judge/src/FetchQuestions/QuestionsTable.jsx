@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const QuestionsTable = ({ questions }) => {
   console.log(questions)
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto text-black">
       <table className="min-w-full bg-white border border-gray-200">
         <thead>
           <tr>
