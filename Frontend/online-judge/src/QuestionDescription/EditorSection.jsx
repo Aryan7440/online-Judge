@@ -13,24 +13,25 @@ import AuthContext from '../Hooks/AuthContext'
 
 const EditorSection = () => {
   const [code, setCode] = useState(`
-    // Include the input/output stream library
     #include <iostream> 
-
-    // Define the main function
+    using namespace std;
     int main() { 
-        // Output "Hello World!" to the console
-        std::cout << "Hello World!"; 
-        
-        // Return 0 to indicate successful execution
+        int a,b;
+        cin>>a>>b;
+        cout<<a+b;
         return 0; 
     }`)
   const [output, setOutput] = useState('')
+  const [userInput, setUserInput] = useState('')
+  const [language, setLanguage] = useState('cpp')
+
   const { UserName } = useContext(AuthContext)
   // const { questionID } = useParams()
   const handleSubmit = async () => {
     const payload = {
-      language: 'cpp',
+      language: language,
       code,
+      input: userInput,
       User: UserName,
     }
 
@@ -45,12 +46,17 @@ const EditorSection = () => {
 
   return (
     <div className="w-full md:w-1/2 p-4">
-      <select className="select-box border border-gray-300 rounded-lg py-1.5 px-4 mb-1 focus:outline-none focus:border-indigo-500 text-black">
+      <select
+        className="select-box border border-gray-300 rounded-lg py-1.5 px-4 mb-1 focus:outline-none focus:border-indigo-500 text-black"
+        value={language}
+        onChange={(e) => setLanguage(e.target.value)}
+      >
         <option value="cpp">C++</option>
-        <option value="c">C</option>
+        <option value="js">C</option>
         <option value="py">Python</option>
         <option value="java">Java</option>
       </select>
+
       <br />
       <div
         className="bg-gray-100 shadow-md w-full mb-4"
@@ -59,7 +65,7 @@ const EditorSection = () => {
         <Editor
           value={code}
           onValueChange={(code) => setCode(code)}
-          highlight={(code) => highlight(code, languages.cpp)}
+          highlight={(code) => highlight(code, languages[language])}
           padding={10}
           style={{
             fontFamily: '"Fira code", "Fira Mono", monospace',
@@ -69,9 +75,17 @@ const EditorSection = () => {
             backgroundColor: '#f7fafc',
             height: '100%',
             overflowY: 'auto',
+            color: '#333',
           }}
         />
       </div>
+      <textarea
+        className="user-input-box border border-gray-300 rounded-lg py-1.5 px-4 mb-4 focus:outline-none focus:border-indigo-500 text-black w-full"
+        placeholder="Enter your input here"
+        value={userInput}
+        onChange={(e) => setUserInput(e.target.value)}
+        rows={4}
+      />
 
       <button
         onClick={handleSubmit}
