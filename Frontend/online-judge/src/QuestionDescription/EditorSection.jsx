@@ -11,7 +11,7 @@ import 'prismjs/themes/prism.css'
 import AuthContext from '../Hooks/AuthContext'
 // import { useParams } from 'react-router-dom'
 
-const EditorSection = () => {
+const EditorSection = (qid) => {
   const [code, setCode] = useState(`
     #include <iostream> 
     using namespace std;
@@ -26,8 +26,9 @@ const EditorSection = () => {
   const [language, setLanguage] = useState('cpp')
 
   const { UserName } = useContext(AuthContext)
-  // const { questionID } = useParams()
-  const handleSubmit = async () => {
+  // const { qid } = useParams()
+  // console.log(`qourqw ${qid}`)
+  const handleRun = async () => {
     const payload = {
       language: language,
       code,
@@ -39,6 +40,26 @@ const EditorSection = () => {
       const { data } = await axios.post(`http://localhost:3000/run`, payload)
       console.log(data)
       setOutput(data.output)
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+  const handleSubmit = async () => {
+    const payload = {
+      language: language,
+      code,
+      UserID: UserName,
+      qid: qid,
+    }
+
+    try {
+      const { data } = await axios.post(`http://localhost:3000/submit`, payload)
+      console.log(data)
+      setOutput(
+        data.success
+          ? 'Submission successful'
+          : `Failed at test case ${data.failedTestCase}`
+      )
     } catch (error) {
       console.log(error.response)
     }
@@ -88,7 +109,7 @@ const EditorSection = () => {
       />
 
       <button
-        onClick={handleSubmit}
+        onClick={handleRun}
         type="button"
         className="text-center inline-flex items-center text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
       >
@@ -112,6 +133,32 @@ const EditorSection = () => {
           />
         </svg>
         Run
+      </button>
+      <button
+        onClick={handleSubmit}
+        type="button"
+        className="text-center inline-flex items-center text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="currentColor"
+          className="w-5 h-5 me-2"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.91 11.672a.375.375 0 0 1 0 .656l-5.603 3.113a.375.375 0 0 1-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112Z"
+          />
+        </svg>
+        Submit
       </button>
 
       {output && (

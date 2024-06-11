@@ -17,7 +17,7 @@ const executeCpp = (filepath, inputFilepath) => {
 
   return new Promise((resolve, reject) => {
     exec(
-      `g++ ${filepath} -o ${outPath} && cd ${outputPath} && .\\${jobId}.exe < ${inputFilepath}`,
+      `g++ ${filepath} -o ${outPath} && cd ${outputPath} && ${jobId}.exe < ${inputFilepath}`,
       (error, stdout, stderr) => {
         if (error) {
           reject({ error, stderr })
@@ -32,11 +32,23 @@ const executeCpp = (filepath, inputFilepath) => {
 }
 const executeJava = (filepath, inputFilepath) => {
   const jobId = path.basename(filepath).split('.')[0]
-  const outPath = path.join(outputPath, `${jobId}.class`)
+  console.log(jobId)
+  // const outPath = path.join(outputPath, `Code.class`)
+  const fileContent = fs.readFileSync(filepath, 'utf8')
+  // console.log(fileContent)
+  // const classNameMatch = fileContent.match(/public\s+class\s+(\w+)/)
+  // console.log(classNameMatch)
+  // if (!classNameMatch) {
+  //   return Promise.reject(new Error('Class name not found in the file'))
+  // }
+  // const className = classNameMatch[1]
+  // console.log(className)
+  const newFilePath = path.join(outputPath, `${jobId}.java`)
+  // console.log(newFilePath)
 
   return new Promise((resolve, reject) => {
     exec(
-      `javac ${filepath} -d ${outputPath} && cd ${outputPath} && java ${jobId} < ${inputFilepath}`,
+      `javac ${newFilePath} -d ${outputPath} && cd ${outputPath} && java ${jobId} < ${inputFilepath}`,
       (error, stdout, stderr) => {
         if (error) {
           reject({ error, stderr })

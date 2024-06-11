@@ -14,7 +14,7 @@ const MDeditor = ({ description, setDescription }) => {
       <div className="w-full md:w-1/2 p-2">
         <label className="mb-1 font-semibold">Description (Markdown):</label>
         <textarea
-          className="w-full h-96 md:h-screen border border-gray-300 p-2 rounded-md"
+          className="w-full h-96 md:h-screen border border-gray-300 p-2 rounded-md text-black"
           value={description}
           onChange={handleChange}
           placeholder="Enter your markdown here..."
