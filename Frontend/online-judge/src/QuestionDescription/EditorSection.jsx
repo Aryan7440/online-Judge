@@ -9,23 +9,23 @@ import 'prismjs/components/prism-python'
 import 'prismjs/components/prism-java'
 import 'prismjs/themes/prism.css'
 import AuthContext from '../Hooks/AuthContext'
+import { useNavigate } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 // import { useParams } from 'react-router-dom'
 
 const EditorSection = (qid) => {
+  const navigate = useNavigate()
+  const { UserName, isLoggedIn } = useContext(AuthContext)
+
+  // const { qid } = useParams()
   const [code, setCode] = useState(`
-    #include <iostream> 
-    using namespace std;
-    int main() { 
-        int a,b;
-        cin>>a>>b;
-        cout<<a+b;
-        return 0; 
+
     }`)
   const [output, setOutput] = useState('')
   const [userInput, setUserInput] = useState('')
   const [language, setLanguage] = useState('cpp')
 
-  const { UserName } = useContext(AuthContext)
+  console.log('user name is' + UserName)
   // const { qid } = useParams()
   // console.log(`qourqw ${qid}`)
   const handleRun = async () => {
@@ -49,10 +49,13 @@ const EditorSection = (qid) => {
       language: language,
       code,
       UserID: UserName,
-      qid: qid,
+      qid: qid.qid,
     }
 
     try {
+      if (isLoggedIn === false) {
+        navigate('/signin')
+      }
       const { data } = await axios.post(`http://localhost:3000/submit`, payload)
       console.log(data)
       setOutput(

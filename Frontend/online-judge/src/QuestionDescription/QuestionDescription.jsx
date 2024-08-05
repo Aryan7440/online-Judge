@@ -18,7 +18,7 @@ const QuestionDescription = () => {
           }
         )
         console.log(que.data)
-        setquestion(que.data)
+        setquestion(que.data[0])
       } catch (error) {
         console.error('Error fetching the question:', error)
       }
@@ -33,7 +33,7 @@ const QuestionDescription = () => {
           description={question.description}
           title={question.title}
         />
-        <EditorSection />
+        <EditorSection qid={questionID} />
       </div>
     </div>
   )

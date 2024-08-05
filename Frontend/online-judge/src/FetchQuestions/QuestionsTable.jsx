@@ -19,7 +19,7 @@ const QuestionsTable = ({ questions }) => {
             <tr key={question._id} className="hover:bg-gray-100">
               <td className="py-2 px-4 border-b text-center">
                 <Link
-                  to={`/questions/${question._id}`}
+                  to={`/questions/${question.question_id}`}
                   className="text-blue-500 hover:underline"
                 >
                   {question.title}

@@ -32,19 +32,11 @@ const executeCpp = (filepath, inputFilepath) => {
 }
 const executeJava = (filepath, inputFilepath) => {
   const jobId = path.basename(filepath).split('.')[0]
-  console.log(jobId)
-  // const outPath = path.join(outputPath, `Code.class`)
+
   const fileContent = fs.readFileSync(filepath, 'utf8')
-  // console.log(fileContent)
-  // const classNameMatch = fileContent.match(/public\s+class\s+(\w+)/)
-  // console.log(classNameMatch)
-  // if (!classNameMatch) {
-  //   return Promise.reject(new Error('Class name not found in the file'))
-  // }
-  // const className = classNameMatch[1]
-  // console.log(className)
+
   const newFilePath = path.join(outputPath, `${jobId}.java`)
-  // console.log(newFilePath)
+
 
   return new Promise((resolve, reject) => {
     exec(

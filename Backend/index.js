@@ -10,6 +10,7 @@ import getQuestions from './API/Fetchproblems.js'
 import http from 'http'
 import compile from './API/RunCode.js'
 import submit from './API/SubmitCode.js'
+import getTestCases from './API/FetchTestCases.js'
 dotenv.config()
 const port = 3000
 const app = express()
@@ -37,6 +38,7 @@ app.use('/', addQuestion)
 app.use('/', getQuestions)
 app.use('/', compile)
 app.use('/', submit)
+app.use('/', getTestCases)
 
 app.get('/Dashboard', async (req, res) => {
   const user = await User.findOne({ investor_email: req.headers.email })

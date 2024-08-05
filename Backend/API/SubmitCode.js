@@ -23,24 +23,22 @@ router.post('/submit', async (req, res) => {
 
   try {
     // Ensure question_id is handled as a string
-    console.log(`Qid: ${qid}`)
+    console.log(`Qid: ${req.body.qid}`)
+    // console.log(req.body)
     const questionTests = await QuestionTest.find({ question_id: qid })
 
     const testCaseIds = questionTests.map((qt) => qt.TestCaseId)
-    console.log('qts', questionTests)
+    // console.log('qts', questionTests)
 
     let failedSerial = 0
-
-    for (const testCaseId of testCaseIds) {
-      // Ensure TestCaseId is queried as a string
-      const testCase = await TestCases.findOne({ TestCaseId: testCaseId })
-      if (!testCase) {
-        continue
-      }
-
+    const testCases = await TestCases.find({
+      TestCaseId: { $in: testCaseIds },
+    })
+    for (const testCase of testCases) {
       const { serial, input, expectedOutput } = testCase
       const filePath = await generateFile(language, code)
       const inputPath = await generateInputFile(input)
+      // console.log('Input: ', input)
 
       let output
       switch (language) {
@@ -60,7 +58,18 @@ router.post('/submit', async (req, res) => {
           throw new Error('Unsupported language')
       }
 
-      if (output.trim() !== expectedOutput.trim()) {
+      const normalizeString = (str) =>
+        str
+          .split('\n')
+          .map((line) => line.trim())
+          .join('\n')
+      const normalizedOutput = normalizeString(output)
+      const normalizedExpectedOutput = normalizeString(expectedOutput)
+
+      // console.log('Normalized Output: ', normalizedOutput)
+      // console.log('Normalized Expected Output: ', normalizedExpectedOutput)
+
+      if (normalizedOutput !== normalizedExpectedOutput) {
         failedSerial = serial
         break
       }
