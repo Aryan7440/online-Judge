@@ -1,7 +1,10 @@
+const dotenv = require('dotenv')
+dotenv.config()
+require('./Utils/logger')
+
 const express = require('express')
 const User = require('./models/User')
 const cors = require('cors')
-const dotenv = require('dotenv')
 const dbConnection = require('./config/db')
 const verify = require('./routes/verify')
 const authRoutes = require('./routes/auth_routes')
@@ -11,14 +14,13 @@ const http = require('http')
 const compile = require('./API/RunCode')
 const submit = require('./API/SubmitCode')
 const getTestCases = require('./API/FetchTestCases')
-dotenv.config()
 const port = 3000
 const app = express()
 const server = http.createServer(app)
 
 dbConnection.connectToDatabase()
 
-server.listen(port, () => console.log(`Server running on port ${port}`))
+server.listen(port, () => logger.info(`Server running on port ${port}`))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(

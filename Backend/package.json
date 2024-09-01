@@ -26,6 +26,8 @@
     "mongoose-sequence": "^6.0.1",
     "nodemon": "^3.1.0",
     "online-judge": "file:",
+    "pino": "^9.3.2",
+    "pino-pretty": "^11.2.2",
     "uuid": "^9.0.1"
   }
 }

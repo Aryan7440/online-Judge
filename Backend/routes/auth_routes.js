@@ -9,7 +9,7 @@ const router = express.Router()
 router.use(cookieParser())
 router.post('/signup', signupController.signUp)
 router.post('/login', loginController.login)
-router.post('/logout', logoutController.logout)
+router.get('/logout', logoutController.logout)
 router.delete('/deleteUser', deleteUserController.deleteUser)
 
 module.exports = router

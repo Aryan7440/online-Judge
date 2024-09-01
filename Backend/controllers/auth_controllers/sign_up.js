@@ -5,7 +5,7 @@ const validators = require('../../Utils/validators')
 
 exports.signUp = async (request, reply) => {
   const { username, password, email, DateOfBirth, FullName } = request.body
-  console.log('signup page entered')
+  logger.info('/signUp called')
   if (!validators.validateEmail(email)) {
     return requestResponseUtils.getBadRequestReply(
       reply,
@@ -19,7 +19,7 @@ exports.signUp = async (request, reply) => {
     )
   }
   const existingUser = await User.findOne({ email: email })
-  console.log('existing user:', existingUser)
+  // console.log('existing user:', existingUser)
 
   if (existingUser) {
     return requestResponseUtils.getBadRequestReply(
@@ -29,23 +29,24 @@ exports.signUp = async (request, reply) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10)
-  console.log('hashed password', hashedPassword)
+  // console.log('hashed password', hashedPassword)
   try {
     const user = new User({
       Role: 'User',
       username: username || 'defaultUsername',
       password: hashedPassword,
       email: email || 'defaultEmail@example.com',
-      DateOfBirth: '1970-01-01',
+      DateOfBirth: DateOfBirth || '1970-01-01',
       FullName: FullName || 'Default Full Name',
       Bio: 'Default Bio',
       ProfilePicture: 'defaultProfilePictureUrl',
       Rating: 0,
     })
-    console.log('user:', user)
+    // console.log('user:', user)
     await user.save()
-    console.log('user saved:', user)
+    // console.log('user saved:', user)
   } catch (error) {
+    logger.error('Error occured:', error)
     return requestResponseUtils.getInternalServerReply(reply, 'Error occured')
   }
   return requestResponseUtils.getSuccessReply(reply, 'User created')
