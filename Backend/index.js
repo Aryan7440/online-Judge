@@ -1,26 +1,22 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import User from './models/User.js'
-import cors from 'cors'
-import dotenv from 'dotenv'
-import verify from './routes/verify.js'
-import auth from './routes/auth.js'
-import addQuestion from './routes/AddQuestions.js'
-import getQuestions from './API/Fetchproblems.js'
-import http from 'http'
-import compile from './API/RunCode.js'
-import submit from './API/SubmitCode.js'
-import getTestCases from './API/FetchTestCases.js'
+const express = require('express')
+const User = require('./models/User')
+const cors = require('cors')
+const dotenv = require('dotenv')
+const dbConnection = require('./config/db')
+const verify = require('./routes/verify')
+const authRoutes = require('./routes/auth_routes')
+const addQuestion = require('./routes/AddQuestions')
+const getQuestions = require('./API/Fetchproblems')
+const http = require('http')
+const compile = require('./API/RunCode')
+const submit = require('./API/SubmitCode')
+const getTestCases = require('./API/FetchTestCases')
 dotenv.config()
 const port = 3000
 const app = express()
 const server = http.createServer(app)
-mongoose
-  .connect(process.env.MONGOOSE_API_KEY)
-  .then((p) => {
-    console.log('DB Connected')
-  })
-  .catch((err) => console.log(err))
+
+dbConnection.connectToDatabase()
 
 server.listen(port, () => console.log(`Server running on port ${port}`))
 app.use(express.urlencoded({ extended: true }))
@@ -32,7 +28,8 @@ app.use(
     credentials: true,
   })
 )
-app.use('/', auth)
+// app.use('/', auth)
+app.use('/api/v1/authRoutes', authRoutes)
 app.use('/', verify)
 app.use('/', addQuestion)
 app.use('/', getQuestions)

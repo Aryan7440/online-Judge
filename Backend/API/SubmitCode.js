@@ -1,15 +1,15 @@
-import express from 'express'
-import { v4 as uuid } from 'uuid'
-import QuestionTest from '../models/QuestionTest.js'
-import TestCases from '../models/TestCases.js'
-import Submission from '../models/Submission.js'
-import { generateFile, generateInputFile } from '../Utils/File.js'
-import {
+const { v4: uuid } = require('uuid')
+const QuestionTest = require('../models/QuestionTest')
+const TestCases = require('../models/TestCases')
+const Submission = require('../models/Submission')
+const { generateFile, generateInputFile } = require('../Utils/File')
+const {
   executeCpp,
   executeJava,
   executeJavaScript,
   executePython,
-} from './execute.js'
+} = require('./execute')
+const express = require('express')
 
 const router = express.Router()
 
@@ -104,4 +104,4 @@ router.post('/submit', async (req, res) => {
   }
 })
 
-export default router
+module.exports = router

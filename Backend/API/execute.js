@@ -1,9 +1,7 @@
-import { exec } from 'child_process'
-import fs from 'fs'
-import path from 'path'
-import { fileURLToPath } from 'url'
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const { exec } = require('child_process')
+const fs = require('fs')
+const path = require('path')
+const { fileURLToPath } = require('url')
 
 const outputPath = path.join(__dirname, 'outputs')
 
@@ -36,7 +34,6 @@ const executeJava = (filepath, inputFilepath) => {
   const fileContent = fs.readFileSync(filepath, 'utf8')
 
   const newFilePath = path.join(outputPath, `${jobId}.java`)
-
 
   return new Promise((resolve, reject) => {
     exec(
@@ -80,4 +77,4 @@ const executeJavaScript = (filepath, inputFilepath) => {
   })
 }
 
-export { executeCpp, executeJava, executePython, executeJavaScript }
+exports = { executeCpp, executeJava, executePython, executeJavaScript }

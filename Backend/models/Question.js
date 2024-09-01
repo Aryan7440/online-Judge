@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 // import AutoIncrementFactory from 'mongoose-sequence'
 
 // const AutoIncrement = AutoIncrementFactory(mongoose)
@@ -16,4 +16,4 @@ const QuestionSchema = new mongoose.Schema({
   tags: { type: [String], default: [] },
 })
 // QuestionSchema.plugin(AutoIncrement, { inc_field: 'question_id' })
-export default mongoose.model('Question', QuestionSchema)
+exports = mongoose.model('Question', QuestionSchema)

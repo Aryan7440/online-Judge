@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 const submissionSchema = new mongoose.Schema({
   submission_id: { type: String, required: true, unique: true },
   question_id: { type: String, required: true },
@@ -8,4 +8,4 @@ const submissionSchema = new mongoose.Schema({
   verdict: { type: String, required: true },
   dateAndTime: { type: Date },
 })
-export default mongoose.model('Submission', submissionSchema)
+exports = mongoose.model('Submission', submissionSchema)

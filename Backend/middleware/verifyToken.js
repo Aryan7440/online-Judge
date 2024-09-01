@@ -1,17 +1,30 @@
-const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization
-  if (!token) {
-    console.log('Unauthorized Access: Token unavailable')
-    return res.status(401).json({ message: 'Token unavailable' })
-  }
-  jwt.verify(token, process.env.JWT_ACCESS_KEY, (err, decoded) => {
-    if (err) {
-      console.log('Forbidden: Token invalid')
-      return res.status(403).json({ message: 'Token Invalid' })
+const requestResponseUtils = require('../Utils/request_response_utils')
+const jwt = require('jsonwebtoken')
+
+exports.verifyToken = (request, reply, next) => {
+  try {
+    const authHeader = request.headers.authorization
+    if (!authHeader) {
+      return requestResponseUtils.getUnauthorizedReply(
+        reply,
+        'Token unavailable'
+      )
     }
-    req.user = decoded
-    console.log('Token Verified')
+    const token = authHeader.split(' ')[1]
+    if (!token) {
+      return requestResponseUtils.getUnauthorizedReply(
+        reply,
+        'Token unavailable'
+      )
+    }
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_ACCESS_KEY)
+      request.user = decoded
+    } catch (error) {
+      return requestResponseUtils.getForbiddenReply(reply, 'Token invalid')
+    }
     next()
-  })
+  } catch (error) {
+    return requestResponseUtils.getInternalServerReply(reply, error)
+  }
 }
-export default verifyToken

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
   ID: { type: String, unique: true, sparse: true },
@@ -14,4 +14,4 @@ const UserSchema = new mongoose.Schema({
   Rating: { type: Number, default: 0 },
 })
 
-export default mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', UserSchema)

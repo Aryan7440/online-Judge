@@ -1,8 +1,7 @@
-import fs, { read } from 'fs'
-import path from 'path'
+const fs = require('fs')
+const path = require('path')
 // import { v4 as uuid } from 'uuid'
-import { fileURLToPath } from 'url'
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const { fileURLToPath } = require('url')
 const dirCodes = path.join(__dirname, 'codes')
 const dirInputs = path.join(__dirname, 'inputs')
 if (!fs.existsSync(dirInputs)) {
@@ -37,4 +36,4 @@ const readFile = (filepath) => {
 //   '#include <iostream>\nusing namespace std;\nint main() {\n\tcout << "Hello World";\n\treturn 0;\n}'
 // )
 // generateInputFile(readFile(path.join(dirCodes, 'a.cpp')))
-export { generateFile, generateInputFile }
+exports = { generateFile, generateInputFile, readFile }

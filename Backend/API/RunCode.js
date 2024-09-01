@@ -1,13 +1,14 @@
-import express, { urlencoded } from 'express'
-// import Question from '../models/Question.js'
-import { generateFile, generateInputFile } from '../Utils/File.js'
-import { v4 as uuid } from 'uuid'
-import {
+const express = require('express')
+const { urlencoded } = require('express')
+// const Question = require('../models/Question');
+const { generateFile, generateInputFile } = require('../Utils/File')
+const { v4: uuid } = require('uuid')
+const {
   executeCpp,
   executeJava,
   executeJavaScript,
   executePython,
-} from './execute.js'
+} = require('./execute')
 
 const router = express.Router()
 router.post('/run', async (req, res) => {
@@ -39,4 +40,4 @@ router.post('/run', async (req, res) => {
   }
 })
 
-export default router
+module.exports = router

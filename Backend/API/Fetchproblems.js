@@ -1,5 +1,5 @@
-import express, { urlencoded } from 'express'
-import Question from '../models/Question.js'
+const express = require('express')
+const Question = require('../models/Question')
 
 const router = express.Router()
 router.get('/fetchQuestions', async (req, res) => {
@@ -23,4 +23,4 @@ router.get('/questions/:questionID', async (req, res) => {
     return res.status(500).json({ message: err.message })
   }
 })
-export default router
+module.exports = router

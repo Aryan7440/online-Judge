@@ -1,17 +1,14 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import Question from '../models/Question.js'
-import QuestionTest from '../models/QuestionTest.js'
-import TestCases from '../models/TestCases.js'
-import { v4 as uuidv4 } from 'uuid'
+const express = require('express')
+const bodyParser = require('body-parser')
+const Question = require('../models/Question')
+const QuestionTest = require('../models/QuestionTest')
+const TestCases = require('../models/TestCases')
+const { v4: uuidv4 } = require('uuid')
 
 const router = express.Router()
 router.use(bodyParser.json())
 router.post('/addquestion', async (req, res) => {
   const { title, description, difficulty, tags, submission } = req.body
-
-  console.log('addquestion page entered')
-  // console.log(req)
   try {
     const Qid = uuidv4()
     const question = new Question({
@@ -51,4 +48,4 @@ router.post('/addquestion', async (req, res) => {
     res.status(400).json({ error: error.message })
   }
 })
-export default router
+module.exports = router

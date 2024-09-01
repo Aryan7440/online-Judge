@@ -1,8 +1,9 @@
-import express from 'express'
-import { v4 as uuid } from 'uuid'
-import QuestionTest from '../models/QuestionTest.js'
-import TestCases from '../models/TestCases.js'
-import Submission from '../models/Submission.js'
+const express = require('express')
+const { v4: uuid } = require('uuid')
+const QuestionTest = require('../models/QuestionTest')
+const TestCases = require('../models/TestCases')
+const Submission = require('../models/Submission')
+
 //6799af26-95d4-4d62-8142-8f3cb9b256f7
 const router = express.Router()
 router.get('/fetchTestCases', async (req, res) => {
@@ -25,4 +26,4 @@ router.get('/fetchTestCases', async (req, res) => {
     return res.status(500).json({ success: false, error: error.message })
   }
 })
-export default router
+module.exports = router
