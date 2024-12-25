@@ -5,6 +5,10 @@ const requestResponseUtils = require('../../Utils/request_response_utils')
 
 exports.login = async (request, reply) => {
   try {
+    if (request.cookies.Jtoken !== undefined) {
+      logger.info('User is already logged in')
+      return requestResponseUtils.getBadRequestReply(reply, 'User is already logged in')
+    }
     logger.info('/login called')
     const { username, password } = request.body
     const user = await User.findOne({ username })

@@ -2,6 +2,10 @@ const requestResponseUtils = require('../../Utils/request_response_utils')
 
 exports.logout = async (request, reply) => {
   try {
+    if (request.cookies.Jtoken === undefined) {
+      logger.info('User not logged in')
+      return requestResponseUtils.getBadRequestReply(reply, 'User not logged in')
+    }
     logger.info('Logging out')
     reply.clearCookie('Jtoken', {
       httpOnly: true,

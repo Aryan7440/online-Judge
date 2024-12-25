@@ -19,7 +19,6 @@ exports.signUp = async (request, reply) => {
     )
   }
   const existingUser = await User.findOne({ email: email })
-  // console.log('existing user:', existingUser)
 
   if (existingUser) {
     return requestResponseUtils.getBadRequestReply(
@@ -29,7 +28,6 @@ exports.signUp = async (request, reply) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10)
-  // console.log('hashed password', hashedPassword)
   try {
     const user = new User({
       Role: 'User',
@@ -42,12 +40,11 @@ exports.signUp = async (request, reply) => {
       ProfilePicture: 'defaultProfilePictureUrl',
       Rating: 0,
     })
-    // console.log('user:', user)
     await user.save()
-    // console.log('user saved:', user)
   } catch (error) {
-    logger.error('Error occured:', error)
+    logger.error(`Error occured while signing up: ${error}`)
     return requestResponseUtils.getInternalServerReply(reply, 'Error occured')
   }
+  logger.info('User created successfully')
   return requestResponseUtils.getSuccessReply(reply, 'User created')
 }

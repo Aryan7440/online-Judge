@@ -28,7 +28,7 @@ router.get('/verify', async (req, res) => {
       res.send({ email: user.username, role: user.Role, is_true: true })
     })
   } catch (error) {
-    console.error('Error:', error)
+    logger.error('Error:', error)
     return requestResponseUtils.getInternalServerReply(
       res,
       'Internal Server Error'

@@ -3,21 +3,16 @@ dotenv.config()
 require('./Utils/logger')
 
 const express = require('express')
-const User = require('./models/User')
 const cors = require('cors')
 const dbConnection = require('./config/db')
-const verify = require('./routes/verify')
 const authRoutes = require('./routes/auth_routes')
-const addQuestion = require('./routes/AddQuestions')
-const getQuestions = require('./API/Fetchproblems')
+const questionRoutes = require('./routes/question_routes')
 const http = require('http')
-const compile = require('./API/RunCode')
-const submit = require('./API/SubmitCode')
-const getTestCases = require('./API/FetchTestCases')
+
 const port = 3000
 const app = express()
 const server = http.createServer(app)
-
+const cookieParser = require('cookie-parser')
 dbConnection.connectToDatabase()
 
 server.listen(port, () => logger.info(`Server running on port ${port}`))
@@ -30,16 +25,9 @@ app.use(
     credentials: true,
   })
 )
-// app.use('/', auth)
-app.use('/api/v1/authRoutes', authRoutes)
-app.use('/', verify)
-app.use('/', addQuestion)
-app.use('/', getQuestions)
-app.use('/', compile)
-app.use('/', submit)
-app.use('/', getTestCases)
+app.use(cookieParser())
 
-app.get('/Dashboard', async (req, res) => {
-  const user = await User.findOne({ investor_email: req.headers.email })
-  return res.send({ inv_name: user.investor_name })
-})
+app.use('/api/v1/authRoutes', authRoutes)
+app.use('/api/v1/Questions', questionRoutes)
+
+

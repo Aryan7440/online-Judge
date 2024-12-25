@@ -8,4 +8,4 @@ const submissionSchema = new mongoose.Schema({
   verdict: { type: String, required: true },
   dateAndTime: { type: Date },
 })
-exports = mongoose.model('Submission', submissionSchema)
+module.exports = mongoose.model('Submission', submissionSchema)

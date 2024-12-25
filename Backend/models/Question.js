@@ -1,19 +1,34 @@
 const mongoose = require('mongoose')
-// import AutoIncrementFactory from 'mongoose-sequence'
+const timestamp = require('mongoose-timestamp')
+const uniqueIdGenerator = require('../service/unique_id_generation_service')
 
-// const AutoIncrement = AutoIncrementFactory(mongoose)
 const QuestionSchema = new mongoose.Schema({
-  question_id: { type: String, required: true, unique: true },
-  title: { type: String, unique: true, required: true },
+  _id: { type: String, unique: true },
+  title: { type: String, required: true },
   description: { type: String, required: true },
   difficulty: {
     type: String,
     enum: ['easy', 'medium', 'hard'],
     required: true,
   },
-  totalSubmissions: { type: Number, default: 0 },
+  total_submissions: { type: Number, default: 0 },
   WA: { type: Number, default: 0 },
   tags: { type: [String], default: [] },
+  test_case_seq: { type: Number, default: 1000 }
 })
-// QuestionSchema.plugin(AutoIncrement, { inc_field: 'question_id' })
-exports = mongoose.model('Question', QuestionSchema)
+
+
+QuestionSchema.plugin(timestamp, {
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
+})
+
+QuestionSchema.pre('save', async function (next) {
+  if (!this.isNew) {
+    next();
+  }
+  const nextId = await uniqueIdGenerator.getNextQuestionSequence();
+  this._id = `Q${nextId}`;
+  next();
+})
+module.exports = mongoose.model('Question', QuestionSchema)

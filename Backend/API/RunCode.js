@@ -1,7 +1,7 @@
 const express = require('express')
 const { urlencoded } = require('express')
 // const Question = require('../models/Question');
-const { generateFile, generateInputFile } = require('../Utils/File')
+const { generateFile, generateInputFile } = require('../utils/File')
 const { v4: uuid } = require('uuid')
 const {
   executeCpp,

@@ -1,5 +1,5 @@
 const User = require('../../models/User')
-const requestResponseUtils = require('../../Utils/request_response_utils')
+const requestResponseUtils = require('../../utils/request_response_utils')
 exports.deleteUser = async (request, reply) => {
   try {
     const { email } = request.body
